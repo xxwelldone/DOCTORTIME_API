@@ -28,4 +28,18 @@ public class TokenService {
             throw new RuntimeException(e);
         }
     }
+    public String getSubject(String tokenJWT){
+        System.out.println(tokenJWT);
+        try{
+            Algorithm algo = Algorithm.HMAC256(secret);
+            return JWT.require(algo)
+                    .withIssuer("DoctorTime API")
+                    .build()
+                    .verify(tokenJWT)
+                    .getSubject();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
