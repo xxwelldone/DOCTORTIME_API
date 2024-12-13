@@ -3,11 +3,14 @@ package com.doctortime.doctortime.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+
 
 @Configuration
 public class OpenAPIConfiguration {
@@ -21,11 +24,26 @@ public class OpenAPIConfiguration {
         myContact.setName("Jane Doe");
         myContact.setEmail("your.email@gmail.com");
 
+        SecurityScheme securityScheme = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT")
+                .description("JWT token para autenticação");
+
+        SecurityRequirement securityRequirement = new SecurityRequirement()
+                .addList("bearerAuth");
+
+
         Info information = new Info()
                 .title("Demo")
                 .version("1.0")
                 .description("This API exposes endpoints to manage employees.")
                 .contact(myContact);
-        return new OpenAPI().info(information).servers(List.of(server));
+        return new OpenAPI()
+                .info(information)
+                .servers(List.of(server))
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes("bearerAuth", securityScheme))
+                .addSecurityItem(securityRequirement);
     }
 }
