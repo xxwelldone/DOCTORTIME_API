@@ -18,6 +18,9 @@ public class WorkerService {
     private final PasswordEncoder passwordEncoder;
 
     public WorkerResposeDTO postWorker(WorkerRequestDTO workerRequestDTO) {
+        if (this.workerRepository.existsByEmail(workerRequestDTO.email())) {
+            throw new IllegalArgumentException("E-mail já existe");
+        }
         String encrypt = passwordEncoder.encode(workerRequestDTO.password());
         Worker worker = new Worker(workerRequestDTO, encrypt);
         return new WorkerResposeDTO(this.workerRepository.save(worker));
@@ -31,6 +34,9 @@ public class WorkerService {
     }
 
     public WorkerResposeDTO putWorker(Long id, WorkerUpdateDTO workerUpdateDTO) {
+        if (this.workerRepository.existsByEmail(workerUpdateDTO.email())) {
+            throw new IllegalArgumentException("E-mail já existe");
+        }
         Worker worker = this.workerRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));

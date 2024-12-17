@@ -26,8 +26,10 @@ public class User {
     public String name;
     public String address;
     @CPF(message = "CPF inválido")
+    @Column(unique = true)
     public String cpf;
     @Email(message = "E-mail inválido")
+    @Column(unique = true)
     public String email;
     public String password;
     @OneToMany(mappedBy = "user")

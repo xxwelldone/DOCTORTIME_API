@@ -18,6 +18,7 @@ public class Worker {
     public Long id;
     public String name;
     @Email(message = "Dado inválido")
+    @Column(unique = true)
     public String email;
     public String setor;
     public String password;

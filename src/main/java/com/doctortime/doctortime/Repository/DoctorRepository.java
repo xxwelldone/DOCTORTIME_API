@@ -8,4 +8,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
    Doctor findByEmail(String email);
    Doctor findByCRM(String CRM);
+   boolean existsByEmail(String email);
+   boolean existsByCRM(String CRM);
 }

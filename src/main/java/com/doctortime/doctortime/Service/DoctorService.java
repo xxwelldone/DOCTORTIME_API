@@ -30,6 +30,10 @@ public class DoctorService {
     }
 
     public DoctorResposeDTO postDoctor(DoctorRequestDTO doctorRequestDTO) {
+        if (this.doctorRepository.existsByEmail(doctorRequestDTO.email())
+                || this.doctorRepository.existsByCRM(doctorRequestDTO.email())) {
+            throw new IllegalArgumentException("E-mail ou CRM já existe");
+        }
         String encription = passwordEncoder.encode(doctorRequestDTO.password());
         Doctor doctor = new Doctor(doctorRequestDTO, encription);
         return new DoctorResposeDTO(this.doctorRepository.save(doctor));

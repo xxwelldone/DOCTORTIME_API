@@ -23,9 +23,11 @@ public class Doctor {
     public Long id;
     public String name;
     public String photoUrl;
+    @Column(unique = true)
     public String CRM;
     public String address;
     @Email(message = "Email inválido")
+    @Column(unique = true)
     public String email;
     public String password;
     @Enumerated(EnumType.STRING)

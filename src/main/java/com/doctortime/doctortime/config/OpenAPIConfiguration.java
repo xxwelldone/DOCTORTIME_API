@@ -21,9 +21,8 @@ public class OpenAPIConfiguration {
         server.setDescription("Development");
 
         Contact myContact = new Contact();
-        myContact.setName("Jane Doe");
-        myContact.setEmail("your.email@gmail.com");
-
+        myContact.setName("Wesley Menezes");
+        myContact.setUrl("https://github.com/xxwelldone");
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
@@ -35,9 +34,9 @@ public class OpenAPIConfiguration {
 
 
         Info information = new Info()
-                .title("Demo")
+                .title("Doctor Time")
                 .version("1.0")
-                .description("This API exposes endpoints to manage employees.")
+                .description("This API exposes endpoints to manage registration and management of appointments.")
                 .contact(myContact);
         return new OpenAPI()
                 .info(information)

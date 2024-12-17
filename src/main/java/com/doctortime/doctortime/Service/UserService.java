@@ -31,7 +31,9 @@ public class UserService {
     }
 
     public UserResponseDTO postUser(UserRequestDTO userRequestDTO) {
-
+        if (this.userRepository.existsByEmail(userRequestDTO.email())) {
+            throw new IllegalArgumentException("E-mail já existe");
+        }
         String encription = passwordEncoder.encode(userRequestDTO.password());
         User user = new User(userRequestDTO, encription);
 
@@ -41,6 +43,7 @@ public class UserService {
     }
 
     public UserResponseDTO putUser(Long id, UserUpdateDTO userUpdateDTO) {
+
         String encrypted = passwordEncoder.encode(userUpdateDTO.password());
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
