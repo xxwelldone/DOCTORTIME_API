@@ -18,7 +18,7 @@ public class DoctorImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.doctor.getRole().toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+this.doctor.getRole().toString()));
     }
 
     @Override

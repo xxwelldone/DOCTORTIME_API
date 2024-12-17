@@ -30,7 +30,6 @@ public class AuthService implements UserDetailsService {
         Doctor doctor = doctorRepository.findByEmail(username);
         User user = userRepository.findByEmail(username);
 
-
         Worker worker = workerRepository.findByEmail(username);
         if (user != null) {
             userDetail = new UserImpl(user);
