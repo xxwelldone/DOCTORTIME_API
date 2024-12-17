@@ -1,5 +1,6 @@
-package com.doctortime.doctortime.Security;
+package com.doctortime.doctortime.Security.Config;
 
+import com.doctortime.doctortime.Security.Filter.SecurityFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,11 @@ public class SecurityConfig {
                .authorizeHttpRequests(req->{
                    req.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
                    req.requestMatchers("/auth/login").permitAll();
+                   req.requestMatchers("/user/create").permitAll();
+                   req.requestMatchers("/doctor/create", "doctor/teste").permitAll();
+                   req.requestMatchers("/worker/create").permitAll();
+
+
                    req.anyRequest().authenticated();
 
 

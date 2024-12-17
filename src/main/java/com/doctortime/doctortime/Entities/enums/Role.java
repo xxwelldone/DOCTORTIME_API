@@ -1,4 +1,4 @@
-package com.doctortime.doctortime.enums;
+package com.doctortime.doctortime.Entities.enums;
 
 public enum Role {
   WORKER,

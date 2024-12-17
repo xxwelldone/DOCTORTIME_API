@@ -1,15 +1,15 @@
-package com.doctortime.doctortime.Controller;
+package com.doctortime.doctortime.Security.Controller;
 
-import com.doctortime.doctortime.Entities.dto.AuthenticatedUser;
-import com.doctortime.doctortime.Entities.dto.Login;
-import com.doctortime.doctortime.Entities.dto.UserImpl;
-import com.doctortime.doctortime.Service.TokenService;
+import com.doctortime.doctortime.Security.DTO.AuthenticatedUser;
+import com.doctortime.doctortime.Security.DTO.Login;
+import com.doctortime.doctortime.Security.Service.TokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class AuthController {
         Authentication authentication = manager.authenticate(authToken);
 
         String tokenJWT = tokenService
-                .tokenGenerator((UserImpl) authentication
+                .tokenGenerator((UserDetails) authentication
                         .getPrincipal());
 
       return  ResponseEntity.ok( new AuthenticatedUser(login.email(), tokenJWT) );

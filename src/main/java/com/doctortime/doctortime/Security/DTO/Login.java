@@ -1,4 +1,4 @@
-package com.doctortime.doctortime.Entities.dto;
+package com.doctortime.doctortime.Security.DTO;
 
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;

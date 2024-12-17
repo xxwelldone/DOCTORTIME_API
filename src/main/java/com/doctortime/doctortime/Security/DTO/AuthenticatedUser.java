@@ -1,3 +1,3 @@
-package com.doctortime.doctortime.Entities.dto;
+package com.doctortime.doctortime.Security.DTO;
 
 public record AuthenticatedUser(String email, String token ) {}

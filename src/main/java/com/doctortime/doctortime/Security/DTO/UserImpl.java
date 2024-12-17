@@ -1,4 +1,4 @@
-package com.doctortime.doctortime.Entities.dto;
+package com.doctortime.doctortime.Security.DTO;
 
 import com.doctortime.doctortime.Entities.User;
 import lombok.Data;

@@ -1,12 +1,14 @@
 package com.doctortime.doctortime.Entities;
 
-import com.doctortime.doctortime.enums.Role;
+import com.doctortime.doctortime.Entities.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 
 @Entity(name = "tb_worker")
 @Data
+@NoArgsConstructor
 public class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
