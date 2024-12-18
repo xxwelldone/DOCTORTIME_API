@@ -27,10 +27,15 @@ public class DoctorController {
         return ResponseEntity.ok().body(this.doctorService.getAll());
     }
 
-    @GetMapping("/{crm}")
+    @GetMapping("crm/{crm}")
     public ResponseEntity<DoctorResposeDTO> getByCRM(@PathVariable String CRM) {
 
         return ResponseEntity.ok().body(this.doctorService.getByCRM(CRM));
+    }
+
+    @GetMapping("specialty/{specialty}")
+    public ResponseEntity<List<DoctorResposeDTO>> getBySpecialty(@PathVariable String specialty, @PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
+        return ResponseEntity.ok().body(this.doctorService.getBySpecialty(specialty));
     }
 
     @PostMapping("/create")

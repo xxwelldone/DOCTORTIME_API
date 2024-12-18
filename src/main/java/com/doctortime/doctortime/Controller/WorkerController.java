@@ -9,6 +9,8 @@ import com.doctortime.doctortime.Service.WorkerService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,7 +26,7 @@ public class WorkerController {
 
 
     @GetMapping()
-    public ResponseEntity<List<WorkerResposeDTO>> getAll() {
+    public ResponseEntity<List<WorkerResposeDTO>> getAll(@PageableDefault(size = 10, sort = {"setor"})Pageable pageable) {
         return ResponseEntity.ok().body(this.workerService.getAll());
     }
 

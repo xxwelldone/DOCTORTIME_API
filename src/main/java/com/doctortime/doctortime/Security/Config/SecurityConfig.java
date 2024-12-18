@@ -36,7 +36,7 @@ public class SecurityConfig {
                     req.requestMatchers("/user/create", "/worker/create").permitAll();
 
                     req.requestMatchers("/worker/**").hasRole("WORKER");
-                    req.requestMatchers("/doctor/**").hasRole("WORKER");
+                    req.requestMatchers("/doctor/create").hasRole("WORKER");
                     req.requestMatchers(HttpMethod.GET, "/appointments").hasRole("WORKER");
 
                     req.requestMatchers(HttpMethod.PUT, "/doctor/{id}").hasRole("DOCTOR");
@@ -44,6 +44,8 @@ public class SecurityConfig {
                     req.requestMatchers( "/appointments/AppointmentOfDoctor").hasRole("DOCTOR");
 
                     req.requestMatchers("/user/**").hasRole("USER");
+                    req.requestMatchers("/doctor/crm/{crm}").hasRole("USER");
+                    req.requestMatchers("/doctor/specialty/{specialty}").hasRole("USER");
                     req.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasRole("USER");
                     req.requestMatchers( "/appointments/AppointmentOfUser").hasRole("USER");
                     req.requestMatchers( "/appointments/create").hasRole("USER");

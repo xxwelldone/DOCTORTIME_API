@@ -5,6 +5,7 @@ import com.doctortime.doctortime.Entities.DTO.Doctor.DoctorResposeDTO;
 import com.doctortime.doctortime.Entities.DTO.Doctor.DoctorUpdateDTO;
 import com.doctortime.doctortime.Entities.DTO.User.UserResponseDTO;
 import com.doctortime.doctortime.Entities.Doctor;
+import com.doctortime.doctortime.Entities.enums.Specialty;
 import com.doctortime.doctortime.Repository.DoctorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,11 @@ public class DoctorService {
     public DoctorResposeDTO getByCRM(String CRM) {
         Doctor doctor = this.doctorRepository.findByCRM(CRM);
         return new DoctorResposeDTO(doctor);
+    }
+    public List<DoctorResposeDTO> getBySpecialty(String specialty){
+        List<Doctor> doctorList = this.doctorRepository.findBySpecialty(Specialty.valueOf(specialty.toUpperCase()));
+        List<DoctorResposeDTO> doctorResposeDTOList = doctorList.stream().map(DoctorResposeDTO::new).toList();
+        return doctorResposeDTOList;
     }
 
     public DoctorResposeDTO postDoctor(DoctorRequestDTO doctorRequestDTO) {
