@@ -9,9 +9,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://doctortime-api.onrender.com") // Adicione o endereço permitido
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
-                .allowedHeaders("*") // Cabeçalhos permitidos
-                .allowCredentials(true); // Permitir cookies e autenticação
+                .allowedOrigins("http://localhost:4200/","https://doctortime-api.onrender.com") //
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*") //
+                .allowCredentials(true); //
     }
 }
