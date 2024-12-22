@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDTO> postUser(UserRequestDTO userRequestDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UserResponseDTO> postUser(@RequestBody UserRequestDTO userRequestDTO, UriComponentsBuilder uriBuilder) {
         UserResponseDTO saved = this.userService.postUser(userRequestDTO);
         URI uri = uriBuilder.path("user/{id}").buildAndExpand(saved.id).toUri();
         return ResponseEntity.created(uri).body(saved);

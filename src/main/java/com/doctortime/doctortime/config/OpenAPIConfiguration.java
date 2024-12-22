@@ -18,6 +18,7 @@ public class OpenAPIConfiguration {
     public OpenAPI defineOpenApi() {
         Server server = new Server();
         server.setUrl("https://doctortime-api.onrender.com");
+
         server.setDescription("Development");
 
         Contact myContact = new Contact();

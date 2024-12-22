@@ -43,7 +43,7 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasRole("DOCTOR");
                     req.requestMatchers( "/appointments/AppointmentOfDoctor").hasRole("DOCTOR");
 
-                    req.requestMatchers("/user/**").hasRole("USER");
+                    req.requestMatchers(HttpMethod.PUT,"/user/{id}").hasRole("USER");
                     req.requestMatchers("/doctor/crm/{crm}").hasRole("USER");
                     req.requestMatchers("/doctor/specialty/{specialty}").hasRole("USER");
                     req.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasRole("USER");
