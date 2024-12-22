@@ -34,6 +34,7 @@ public class UserService {
         if (this.userRepository.existsByEmail(userRequestDTO.email())) {
             throw new IllegalArgumentException("E-mail já existe");
         }
+        System.out.println(userRequestDTO.password());
         String encription = passwordEncoder.encode(userRequestDTO.password());
         User user = new User(userRequestDTO, encription);
 
