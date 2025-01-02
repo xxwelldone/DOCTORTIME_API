@@ -34,6 +34,7 @@ public class SecurityConfig {
                     req.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
                     req.requestMatchers("/auth/login").permitAll();
                     req.requestMatchers("/user/create", "/worker/create").permitAll();
+                    req.requestMatchers(HttpMethod.OPTIONS).permitAll();
 
                     req.requestMatchers("/worker/**").hasRole("WORKER");
                     req.requestMatchers("/doctor/create").hasRole("WORKER");
