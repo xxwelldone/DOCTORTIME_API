@@ -9,13 +9,10 @@ import java.util.Date;
 
 public class DoctorAppointmentDTO {
     public Long id;
-    public DoctorResposeDTO doctor;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     public Date date;
     public DoctorAppointmentDTO(Appointment appointment) {
         this.id = appointment.getId();
-        this.doctor = new DoctorResposeDTO(appointment.getDoctor());
         this.date = appointment.getDate();
-
     }
 }

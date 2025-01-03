@@ -36,10 +36,10 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponseDTO>> getbyDoctor(@PageableDefault(size = 10, sort = {"date"}) Pageable pageable) {
         return ResponseEntity.ok().body(this.appointmentService.getAllByDoctor());
     }
-    @GetMapping("/doctorappointments/{id}")
+    @GetMapping("/doctorappointments/{doctorId}")
     public ResponseEntity<List<DoctorAppointmentDTO>> getByDoctorId(@PageableDefault(size = 10, sort = {"date"}) Pageable pageable,
-                                                                    @PathVariable Long id){
-        return  ResponseEntity.ok().body(this.appointmentService.getDoctorAppointments(id));
+                                                                    @PathVariable Long doctorId){
+        return  ResponseEntity.ok().body(this.appointmentService.getDoctorAppointments(doctorId));
     }
 
     @PostMapping("/create")
