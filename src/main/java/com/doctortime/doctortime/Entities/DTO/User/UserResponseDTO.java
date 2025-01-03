@@ -15,7 +15,7 @@ public class UserResponseDTO {
     public String address;
     public String cpf;
     public String email;
-    List<Appointment> appointments = new ArrayList<>();
+//    List<Appointment> appointments = new ArrayList<>();
 
     public UserResponseDTO(User user) {
         this.id = user.getId();
@@ -23,6 +23,6 @@ public class UserResponseDTO {
         this.address = user.getAddress();
         this.cpf = user.getCpf();
         this.email = user.getEmail();
-        this.appointments = user.getAppointments();
+//        this.appointments = user.getAppointments();
     }
 }

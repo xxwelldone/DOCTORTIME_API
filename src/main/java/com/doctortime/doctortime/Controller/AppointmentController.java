@@ -3,6 +3,7 @@ package com.doctortime.doctortime.Controller;
 import com.doctortime.doctortime.Entities.DTO.Appointment.AppointmentRequestDTO;
 import com.doctortime.doctortime.Entities.DTO.Appointment.AppointmentResponseDTO;
 import com.doctortime.doctortime.Entities.DTO.Appointment.AppointmentUpdateDTO;
+import com.doctortime.doctortime.Entities.DTO.Appointment.DoctorAppointmentDTO;
 import com.doctortime.doctortime.Service.AppointmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,11 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponseDTO>> getbyDoctor(@PageableDefault(size = 10, sort = {"date"}) Pageable pageable) {
         return ResponseEntity.ok().body(this.appointmentService.getAllByDoctor());
     }
+    @GetMapping("/doctorappointments/{id}")
+    public ResponseEntity<List<DoctorAppointmentDTO>> getByDoctorId(@PageableDefault(size = 10, sort = {"date"}) Pageable pageable,
+                                                                    @PathVariable Long id){
+        return  ResponseEntity.ok().body(this.appointmentService.getDoctorAppointments(id));
+    }
 
     @PostMapping("/create")
     public ResponseEntity<AppointmentResponseDTO> postAppointment(@RequestBody AppointmentRequestDTO requestDTO, UriComponentsBuilder uriBuilder) {
@@ -48,4 +54,5 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable Long id, @RequestBody AppointmentUpdateDTO updateDTO) {
         return ResponseEntity.accepted().body(this.appointmentService.updateAppointment(id, updateDTO));
     }
+
 }

@@ -4,6 +4,7 @@ import com.doctortime.doctortime.Entities.Appointment;
 import com.doctortime.doctortime.Entities.DTO.Appointment.AppointmentRequestDTO;
 import com.doctortime.doctortime.Entities.DTO.Appointment.AppointmentResponseDTO;
 import com.doctortime.doctortime.Entities.DTO.Appointment.AppointmentUpdateDTO;
+import com.doctortime.doctortime.Entities.DTO.Appointment.DoctorAppointmentDTO;
 import com.doctortime.doctortime.Entities.Doctor;
 import com.doctortime.doctortime.Entities.User;
 import com.doctortime.doctortime.Repository.AppointmentRepository;
@@ -58,5 +59,10 @@ public class AppointmentService {
         appointment.updateAppointment(appointmentUpdateDTO);
         return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
     }
+public List<DoctorAppointmentDTO> getDoctorAppointments(Long id){
+      List<Appointment> appointments=  this.appointmentRepository.findAllByDoctorId(id);
+      List<DoctorAppointmentDTO> doctorAppointmentDTOS = appointments.stream().map(DoctorAppointmentDTO::new).toList();
+    return doctorAppointmentDTOS;
+}
 
 }

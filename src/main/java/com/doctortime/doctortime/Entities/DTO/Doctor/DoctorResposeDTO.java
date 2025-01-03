@@ -15,7 +15,7 @@ public class DoctorResposeDTO {
     public Specialty specialty;
     public String address;
     public String email;
-    public List<Appointment> appointments = new ArrayList<>();
+//    public List<Appointment> appointments = new ArrayList<>();
 
     public DoctorResposeDTO(Doctor doctor) {
         this.id = doctor.getId();
@@ -25,6 +25,6 @@ public class DoctorResposeDTO {
         this.specialty = doctor.getSpecialty();
         this.address = doctor.getAddress();
         this.email = doctor.getEmail();
-        this.appointments = doctor.getAppointments();
+//        this.appointments = doctor.getAppointments();
     }
 }
