@@ -16,11 +16,15 @@ import java.util.List;
 public class OpenAPIConfiguration {
     @Bean
     public OpenAPI defineOpenApi() {
-        Server server = new Server();
-//        server.setUrl("https://doctortime-api.onrender.com");
-        server.setUrl("http://localhost:8080/");
 
-        server.setDescription("Development");
+        Server productionServer = new Server()
+                .url("https://doctortime-api.onrender.com")
+                .description("Production");
+
+        Server developmentServer = new Server()
+                .url("http://localhost:8080/")
+                .description("Development");
+
 
         Contact myContact = new Contact();
         myContact.setName("Wesley Menezes");
@@ -42,7 +46,7 @@ public class OpenAPIConfiguration {
                 .contact(myContact);
         return new OpenAPI()
                 .info(information)
-                .servers(List.of(server))
+                .servers(List.of(developmentServer,productionServer ))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes("bearerAuth", securityScheme))
                 .addSecurityItem(securityRequirement);
