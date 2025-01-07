@@ -17,8 +17,8 @@ public class OpenAPIConfiguration {
     @Bean
     public OpenAPI defineOpenApi() {
         Server server = new Server();
-        server.setUrl("https://doctortime-api.onrender.com");
-//        server.setUrl("http://localhost:8080/");
+//        server.setUrl("https://doctortime-api.onrender.com");
+        server.setUrl("http://localhost:8080/");
 
         server.setDescription("Development");
 

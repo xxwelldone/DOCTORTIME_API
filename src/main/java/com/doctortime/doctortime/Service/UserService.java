@@ -44,8 +44,10 @@ public class UserService {
     }
 
     public UserResponseDTO putUser(Long id, UserUpdateDTO userUpdateDTO) {
-
-        String encrypted = passwordEncoder.encode(userUpdateDTO.password());
+        String encrypted = null;
+        if (userUpdateDTO.password() != null) {
+            encrypted = passwordEncoder.encode(userUpdateDTO.password());
+        }
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         user.UpdateUser(userUpdateDTO, encrypted);
