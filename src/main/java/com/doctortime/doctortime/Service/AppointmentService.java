@@ -53,6 +53,12 @@ public class AppointmentService {
         List<AppointmentResponseDTO> appointmentResponseDTOList = appointmentList.stream().map(AppointmentResponseDTO::new).toList();
         return appointmentResponseDTOList;
     }
+    public AppointmentResponseDTO getById(Long id){
+        Appointment appointment = this.appointmentRepository.findById(id).orElseThrow(()->new RuntimeException("Appointment not found"));
+        AppointmentResponseDTO appointmentResponseDTO = new AppointmentResponseDTO(appointment);
+        return appointmentResponseDTO;
+
+    }
 
     public AppointmentResponseDTO updateAppointment(Long id, AppointmentUpdateDTO appointmentUpdateDTO) {
         Appointment appointment = this.appointmentRepository.findById(id).orElseThrow();
