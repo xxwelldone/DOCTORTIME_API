@@ -12,10 +12,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 @Configuration
 @EnableWebSecurity
@@ -41,20 +46,19 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.GET, "/appointments").hasRole("WORKER");
 
                     req.requestMatchers(HttpMethod.PUT, "/doctor/{id}").hasRole("DOCTOR");
-                    req.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasRole("DOCTOR");
-                    req.requestMatchers( "/appointments/AppointmentOfDoctor").hasRole("DOCTOR");
+                    req.requestMatchers("/appointments/AppointmentOfDoctor").hasRole("DOCTOR");
 
-                    req.requestMatchers(HttpMethod.PUT,"/user/{id}").hasRole("USER");
+                    req.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasAnyRole("USER", "DOCTOR");
+
+                    req.requestMatchers(HttpMethod.PUT, "/user/{id}").hasRole("USER");
                     req.requestMatchers("/doctor/crm/{crm}").hasRole("USER");
                     req.requestMatchers("/doctor/specialty/{specialty}").hasRole("USER");
-                    req.requestMatchers(HttpMethod.PUT, "/appointments/{id}").hasRole("USER");
-                    req.requestMatchers( "/appointments/AppointmentOfUser").hasRole("USER");
-                    req.requestMatchers( "/appointments/create").hasRole("USER");
+                    req.requestMatchers("/appointments/AppointmentOfUser").hasRole("USER");
+                    req.requestMatchers("/appointments/create").hasRole("USER");
                     req.requestMatchers("/appointments/doctorappointments/{id}").hasRole("USER");
 
 
                     req.anyRequest().authenticated();
-
 
                 }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
