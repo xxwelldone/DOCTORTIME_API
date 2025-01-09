@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -54,8 +55,13 @@ public class AppointmentService {
         return appointmentResponseDTOList;
     }
     public AppointmentResponseDTO getById(Long id){
-        Appointment appointment = this.appointmentRepository.findById(id).orElseThrow(()->new RuntimeException("Appointment not found"));
-        AppointmentResponseDTO appointmentResponseDTO = new AppointmentResponseDTO(appointment);
+       List<AppointmentResponseDTO> appointmentList= this.getAllByUser();
+
+       AppointmentResponseDTO appointmentResponseDTO= appointmentList.stream().filter(findAppointment ->
+                       Objects.equals(findAppointment.id, id)).findFirst()
+               .orElseThrow(()->new RuntimeException("Not found"));
+
+        ;
         return appointmentResponseDTO;
 
     }
