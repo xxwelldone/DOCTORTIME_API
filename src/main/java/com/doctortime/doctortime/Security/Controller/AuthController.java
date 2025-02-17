@@ -30,7 +30,7 @@ public class AuthController {
         String tokenJWT = tokenService
                 .tokenGenerator((UserDetails) authentication
                         .getPrincipal());
-
-      return  ResponseEntity.ok( new AuthenticatedUser(login.email(), tokenJWT) );
+        String role = ((UserDetails) authentication.getPrincipal()).getAuthorities().toString();
+      return  ResponseEntity.ok( new AuthenticatedUser(login.email(), tokenJWT, role) );
     }
 }

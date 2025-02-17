@@ -1,3 +1,3 @@
 package com.doctortime.doctortime.Security.DTO;
 
-public record AuthenticatedUser(String email, String token ) {}
+public record AuthenticatedUser(String email, String token, String role ) {}

@@ -18,6 +18,7 @@ public class TokenService {
 
     public String tokenGenerator(UserDetails user) {
         try {
+            
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("DoctorTime API")
