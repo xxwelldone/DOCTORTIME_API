@@ -10,7 +10,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
 
-                .allowedOrigins("http://localhost:4200/","https://doctortime-api.onrender.com", "https://drtime.vercel.app/")
+                .allowedOrigins("http://localhost:4200","https://doctortime-api.onrender.com", "https://drtime.vercel.app/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Authorization", "Content-Type", "*")
                 .allowCredentials(true);
