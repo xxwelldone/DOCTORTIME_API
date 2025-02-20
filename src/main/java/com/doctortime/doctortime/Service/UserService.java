@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class UserService {
         User user = this.userRepository.findByEmail(email);
         return new UserResponseDTO(user);
     }
+
 
     public UserResponseDTO postUser(UserRequestDTO userRequestDTO) {
         if (this.userRepository.existsByEmail(userRequestDTO.email())) {
