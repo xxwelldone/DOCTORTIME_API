@@ -39,7 +39,7 @@ public class DoctorController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<DoctorResposeDTO> postDoctor(DoctorRequestDTO doctorRequestDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DoctorResposeDTO> postDoctor(@RequestBody DoctorRequestDTO doctorRequestDTO, UriComponentsBuilder uriBuilder) {
         DoctorResposeDTO saved = this.doctorService.postDoctor(doctorRequestDTO);
         URI uri = uriBuilder.path("doctor/{id}").buildAndExpand(saved.id).toUri();
         return ResponseEntity.created(uri).body(saved);
