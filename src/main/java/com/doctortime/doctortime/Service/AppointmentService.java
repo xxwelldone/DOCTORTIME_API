@@ -11,11 +11,12 @@ import com.doctortime.doctortime.Repository.AppointmentRepository;
 import com.doctortime.doctortime.Repository.DoctorRepository;
 import com.doctortime.doctortime.Repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,11 +29,21 @@ public class AppointmentService {
 
 
     public AppointmentResponseDTO postAppointment(AppointmentRequestDTO appointmentRequestDTO) {
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         Doctor doctor = this.doctorRepository.findById(appointmentRequestDTO.DoctorID()).orElseThrow();
         User user = this.userRepository.findByEmail(userDetails.getUsername());
-        Appointment appointment = new Appointment(appointmentRequestDTO, doctor, user);
-        return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
+        List<Appointment> doctorAppointments = this.appointmentRepository.findAllByDoctorEmail(doctor.getEmail());
+        boolean isAvailable = this.hasAppointmentAt(doctorAppointments, appointmentRequestDTO.date());
+
+        if (!isAvailable) {
+            Appointment appointment = new Appointment(appointmentRequestDTO, doctor, user);
+            return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
+        } else {
+            throw new RuntimeException("Data não disponível");
+        }
+
     }
 
     public List<AppointmentResponseDTO> getAllByUser() {
@@ -54,12 +65,13 @@ public class AppointmentService {
         List<AppointmentResponseDTO> appointmentResponseDTOList = appointmentList.stream().map(AppointmentResponseDTO::new).toList();
         return appointmentResponseDTOList;
     }
-    public AppointmentResponseDTO getById(Long id){
-       List<AppointmentResponseDTO> appointmentList= this.getAllByUser();
 
-       AppointmentResponseDTO appointmentResponseDTO= appointmentList.stream().filter(findAppointment ->
-                       Objects.equals(findAppointment.id, id)).findFirst()
-               .orElseThrow(()->new RuntimeException("Not found"));
+    public AppointmentResponseDTO getById(Long id) {
+        List<AppointmentResponseDTO> appointmentList = this.getAllByUser();
+
+        AppointmentResponseDTO appointmentResponseDTO = appointmentList.stream().filter(findAppointment ->
+                        Objects.equals(findAppointment.id, id)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Not found"));
 
         ;
         return appointmentResponseDTO;
@@ -67,14 +79,41 @@ public class AppointmentService {
     }
 
     public AppointmentResponseDTO updateAppointment(Long id, AppointmentUpdateDTO appointmentUpdateDTO) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = this.userRepository.findByEmail(userDetails.getUsername());
         Appointment appointment = this.appointmentRepository.findById(id).orElseThrow();
-        appointment.updateAppointment(appointmentUpdateDTO);
-        return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
-    }
-public List<DoctorAppointmentDTO> getDoctorAppointments(Long id){
-      List<Appointment> appointments=  this.appointmentRepository.findAllByDoctorId(id);
-      List<DoctorAppointmentDTO> doctorAppointmentDTOS = appointments.stream().map(DoctorAppointmentDTO::new).toList();
-    return doctorAppointmentDTOS;
-}
 
+        if(appointment.getUser().id == user.getId()){
+
+            Long doctorId = appointment.getDoctor().getId();
+            Doctor doctor = this.doctorRepository.findById(doctorId).orElseThrow();
+            List<Appointment> doctorAppointments = this.appointmentRepository.findAllByDoctorEmail(doctor.getEmail());
+    boolean isAvailable = this.hasAppointmentAt(doctorAppointments,appointmentUpdateDTO.date());
+
+          if(!isAvailable){
+              appointment.updateAppointment(appointmentUpdateDTO);
+              return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
+          } else {
+              throw  new RuntimeException("Horário não disponível");
+
+          }
+        }
+        else{
+            throw  new RuntimeException("Id informado não pertence a uma consulta de usuário");
+
+        }
+    }
+
+    public List<DoctorAppointmentDTO> getDoctorAppointments(Long id) {
+        List<Appointment> appointments = this.appointmentRepository.findAllByDoctorId(id);
+        List<DoctorAppointmentDTO> doctorAppointmentDTOS = appointments.stream().map(DoctorAppointmentDTO::new).toList();
+        return doctorAppointmentDTOS;
+    }
+
+    private boolean hasAppointmentAt(List<Appointment> doctorAppointments, Date requestedTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        return doctorAppointments.stream().anyMatch(a->sdf.format(a.getDate()).equals(sdf.format(requestedTime))  );
+
+    }
 }
