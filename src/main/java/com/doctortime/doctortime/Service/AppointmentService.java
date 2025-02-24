@@ -99,13 +99,14 @@ public class AppointmentService {
                     throw new RuntimeException("Horário não disponível");
 
                 }
-            } else {
-                throw new RuntimeException("Id informado não pertence a uma consulta de usuário");
+            }else {
+                appointment.updateAppointment(appointmentUpdateDTO);
+                return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
 
             }
-        } else {
-            appointment.updateAppointment(appointmentUpdateDTO);
-            return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
+        }
+        else {
+            throw new RuntimeException("Id informado não pertence a uma consulta de usuário");
 
         }
     }
