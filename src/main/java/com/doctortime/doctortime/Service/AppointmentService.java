@@ -83,23 +83,29 @@ public class AppointmentService {
         User user = this.userRepository.findByEmail(userDetails.getUsername());
         Appointment appointment = this.appointmentRepository.findById(id).orElseThrow();
 
-        if(appointment.getUser().id == user.getId()){
+        if(appointment.getUser().id == user.getId()) {
 
-            Long doctorId = appointment.getDoctor().getId();
-            Doctor doctor = this.doctorRepository.findById(doctorId).orElseThrow();
-            List<Appointment> doctorAppointments = this.appointmentRepository.findAllByDoctorEmail(doctor.getEmail());
-    boolean isAvailable = this.hasAppointmentAt(doctorAppointments,appointmentUpdateDTO.date());
+            if (appointmentUpdateDTO.date() != null) {
 
-          if(!isAvailable){
-              appointment.updateAppointment(appointmentUpdateDTO);
-              return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
-          } else {
-              throw  new RuntimeException("Horário não disponível");
+                Long doctorId = appointment.getDoctor().getId();
+                Doctor doctor = this.doctorRepository.findById(doctorId).orElseThrow();
+                List<Appointment> doctorAppointments = this.appointmentRepository.findAllByDoctorEmail(doctor.getEmail());
+                boolean isAvailable = this.hasAppointmentAt(doctorAppointments, appointmentUpdateDTO.date());
 
-          }
-        }
-        else{
-            throw  new RuntimeException("Id informado não pertence a uma consulta de usuário");
+                if (!isAvailable) {
+                    appointment.updateAppointment(appointmentUpdateDTO);
+                    return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
+                } else {
+                    throw new RuntimeException("Horário não disponível");
+
+                }
+            } else {
+                throw new RuntimeException("Id informado não pertence a uma consulta de usuário");
+
+            }
+        } else {
+            appointment.updateAppointment(appointmentUpdateDTO);
+            return new AppointmentResponseDTO(this.appointmentRepository.save(appointment));
 
         }
     }
